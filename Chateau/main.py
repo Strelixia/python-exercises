@@ -1,6 +1,4 @@
-#Let's Build a Castle - www.101computing.net/python-turtle-building-a-castle/
 
-# 1. import relevant libraries
 import turtle
 from shapes import *
 
