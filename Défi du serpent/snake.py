@@ -7,6 +7,7 @@ class Snake(turtle.Turtle):
     #Call the parent constructor to initialise the Snake as a Turtle!
     super().__init__()
     self.shape("square")
+    self.speed(0.05)
     self.snakeColor = headColor
     self.tailColor = tailColor
     
@@ -29,7 +30,7 @@ class Snake(turtle.Turtle):
     # Redraw the tail
     for position in self.tail:
       self.color(self.tailColor)
-      self.goto(-190 + position[0]*20,190 - position[1]*20)
+      self.goto(-190 + position[0]*20, 190 - position[1]*20)
       self.stamp()
     if len(self.tail)>=1:
       self.tail.append((self.position[0],self.position[1]))
@@ -64,3 +65,4 @@ class Snake(turtle.Turtle):
       if self.position[0]==self.tail[i][0] and self.position[1]==self.tail[i][1]:
         return True
     return False    
+  

@@ -26,7 +26,7 @@ def drawBorders():
   pen = turtle.Turtle()
   pen.hideturtle()  
   pen.speed(5)
-  pen.color("#FFFFFF")
+  pen.color("#FFFF00")
   pen.pensize(2)
   pen.penup()
   pen.goto(-202,-202)
@@ -39,20 +39,23 @@ def drawBorders():
 screen = turtle.Screen()
 screen.tracer(0,0)
 screen.setup(440, 440)
-screen.bgcolor((200/255,200/255,200/255))
+screen.bgcolor("black")
 
 # >>> Draw the white borders
 drawBorders()
+
   
 # >>> Add the apple
 apple = Apple("#FF0000",random.randint(0,19),random.randint(0,19))
 apple.draw()
 
 # >>> Add the Snake...
-snake = Snake("#810081","#B130B1",0,19)  #Purple Snake in the bottom left corner (0,0) of the 20x20 grid
-snake.direction = "right"
-snake.draw()
-
+snake1 = Snake("#810081","#B130B1",0,19)  #Purple Snake in the bottom left corner (0,0) of the 20x20 grid
+snake1.direction = "right"
+snake1.draw()
+snake2 = Snake("green","green",10,19)  #Purple Snake in the bottom left corner (0,0) of the 20x20 grid
+snake2.direction = "right"
+snake2.draw()
 # >>> Display instructions on how to play the game
 displayInstructions()
 
@@ -62,28 +65,43 @@ def startGame(x,y):
     score = 0
     delay = 0.25
     print(" >>> Starting Game")
-    
+
     # >>> Main game loop
     while not gameOver:  
-      screen.bgcolor((200/255,200/255,200/255))
-      snake.move() 
+      screen.bgcolor("black")
+      snake1.move() or snake2.move() 
+      
   
       # Has the snake gone over the edge of the game window?
-      if snake.isOffScreen():
+      if snake1.isOffScreen() or snake2.isOffScreen():
         print(" >>> Game Over! <<<")
         gameOver=True
         
       #Is the snake biting its own tail!  
-      elif snake.isBitingTail():
+      elif snake1.isBitingTail() or snake2.isBitingTail():
         print(" >>> Game Over! <<<")
         gameOver=True
         
+      elif snake1.position [0] == snake2.position[0] and snake1.position[1] == snake2.position[1]:
+        print(" >>> Game Over! <<<")
+        gameOver=Trueh
       # Has the snake reached the apple? 
-      elif snake.position[0] == apple.position[0] and snake.position[1] == apple.position[1]:
-        snake.score += 1
-        print("Score: " + str(snake.score) + "pts")
+      elif snake1.position[0] == apple.position[0] and snake1.position[1] == apple.position[1]:
+        snake1.score += 1
+        print("Score mauve: " + str(snake1.score) + "pts")
         # Extend the tail of the snake
-        snake.grow()
+        snake1.grow()
+        apple.respawn()
+
+      elif snake2.position[0] == apple.position[0] and snake2.position[1] == apple.position[1]:
+        snake2.score += 1
+        print("Score vert: " + str(snake2.score) + "pts")
+        # Extend the tail of the snake
+        snake2.grow()
+
+
+
+
         # Respawn the apple using a different location
         apple.respawn()
    
@@ -93,16 +111,16 @@ def startGame(x,y):
 
 # >>> Implementing motion of the snake in all 4 directions
 def go_up():
-  snake.direction = "up"
+ snake1.direction = "up"
 
 def go_down():
-  snake.direction = "down"
+  snake1.direction = "down"
   
 def go_right():
-  snake.direction = "right"
+  snake1.direction = "right"
  
 def go_left():
-  snake.direction = "left"
+  snake1.direction = "left"
 
 # >>> Keyboard bindings (using the arrow keys)
 screen.listen()
@@ -110,6 +128,26 @@ screen.onkey(go_up, "Up")
 screen.onkey(go_down, "Down")
 screen.onkey(go_right, "Right")
 screen.onkey(go_left, "Left")
+
+
+def haut():
+ snake2.direction = "up"
+
+def bas():
+  snake2.direction = "down"
+  
+def droite():
+  snake2.direction = "left"
+ 
+def gauche():
+  snake2.direction = "right"
+
+# >>> Keyboard bindings (using the arrow keys)
+screen.listen()
+screen.onkeypress(haut, "8")
+screen.onkeypress(bas, "2")
+screen.onkeypress(droite, "4")
+screen.onkeypress(gauche, "6")
 
 #The game will only start once the player clicks on the screen
 screen.onscreenclick(startGame, 1)
